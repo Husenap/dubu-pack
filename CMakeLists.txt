@@ -7,8 +7,13 @@ include("cmake/setup.cmake")
 include("cmake/compiler_features.cmake")
 include("cmake/compiler_warnings.cmake")
 
-option(
-    DUBUPACK_BUILD_TESTS
+set(DUBUPACK_FOLDER
+    ${PROJECT_NAME}
+    CACHE
+    STRING
+    "The folder that dubu-pack projects will be placed in.")
+
+option(DUBUPACK_BUILD_TESTS
     "If the dubu-pack tests are built in addition to the dubu-pack library."
     ON)
 

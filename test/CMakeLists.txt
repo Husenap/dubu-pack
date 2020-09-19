@@ -9,6 +9,6 @@ add_executable(${target_name} ${src_unit})
 
 target_link_libraries(${target_name} gtest_main)
 
-set_target_properties(${target_name} PROPERTIES FOLDER ${PROJECT_NAME})
+set_target_properties(${target_name} PROPERTIES FOLDER ${DUBUPACK_FOLDER}/test)
 
 gtest_discover_tests(${target_name})

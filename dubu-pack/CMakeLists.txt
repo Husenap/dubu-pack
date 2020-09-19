@@ -19,4 +19,4 @@ source_group("src/packer" FILES ${src_packer})
 
 target_include_directories(${target_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-set_target_properties(${target_name} PROPERTIES FOLDER ${PROJECT_NAME})
+set_target_properties(${target_name} PROPERTIES FOLDER ${DUBUPACK_FOLDER})
