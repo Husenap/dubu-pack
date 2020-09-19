@@ -2,6 +2,20 @@
 
 #include <dubu_pack/dubu_pack.h>
 
+void read_test_files(dubu_pack::package& package) {
+	{
+		auto fileContent = package.get_file_locator()->read_file("test.txt");
+		EXPECT_TRUE(fileContent.has_value());
+		EXPECT_THAT(*fileContent,
+		            testing::ElementsAreArray({'H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd', '!'}));
+	}
+
+	{
+		auto fileContent = package.get_file_locator()->read_file("this_file_does_not_exist.txt");
+		EXPECT_FALSE(fileContent.has_value());
+	}
+}
+
 TEST(dubu_pack, package_name) {
 	dubu_pack::package package("assets");
 
@@ -26,9 +40,7 @@ TEST(dubu_pack, read_packed_file) {
 
 	EXPECT_EQ(package.get_package_mode(), dubu_pack::package_mode::package);
 
-	dubu_pack::blob fileContent = package.get_file_locator()->read_file("test.txt");
-
-	EXPECT_THAT(fileContent, testing::ElementsAreArray({'H','e','l','l','o',' ','W','o','r','l','d','!'}));
+	read_test_files(package);
 }
 
 TEST(dubu_pack, read_unpacked_file) {
@@ -36,8 +48,5 @@ TEST(dubu_pack, read_unpacked_file) {
 
 	EXPECT_EQ(package.get_package_mode(), dubu_pack::package_mode::filesystem);
 
-	dubu_pack::blob fileContent = package.get_file_locator()->read_file("test.txt");
-
-	EXPECT_THAT(fileContent, testing::ElementsAreArray({'H','e','l','l','o',' ','W','o','r','l','d','!'}));
+	read_test_files(package);
 }
-

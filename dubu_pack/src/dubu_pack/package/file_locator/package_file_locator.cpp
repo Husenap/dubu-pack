@@ -2,7 +2,7 @@
 
 namespace dubu_pack {
 
-dubu_pack::blob package_file_locator::read_file(std::string_view filePath) throw() {
+std::optional<blob> package_file_locator::read_file(std::string_view filePath) {
 	return {};
 }
 

@@ -5,3 +5,4 @@
 #include <filesystem>
 #include <vector>
 #include <cstdint>
+#include <optional>

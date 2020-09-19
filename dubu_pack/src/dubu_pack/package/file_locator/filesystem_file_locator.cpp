@@ -4,15 +4,15 @@
 
 namespace dubu_pack {
 
-dubu_pack::blob filesystem_file_locator::read_file(std::string_view filePath) throw() {
+std::optional<blob> filesystem_file_locator::read_file(std::string_view filePath) {
 	if (!std::filesystem::exists(filePath)) {
-		throw std::runtime_error("File doesn't exist!");
+		return std::nullopt;
 	}
 
 	std::ifstream fileStream(filePath, std::ios_base::binary);
 
 	if (fileStream.fail()) {
-		throw std::runtime_error("Failed to open file!");
+		return std::nullopt;
 	}
 
 	fileStream.seekg(0, fileStream.end);
