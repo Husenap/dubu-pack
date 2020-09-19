@@ -1,16 +1,19 @@
 cmake_minimum_required(VERSION 3.16)
-set(PROJECT_NAME "project_name")
-project(${PROJECT_NAME} C CXX)
+
+project("dubu-pack" C CXX)
+
+include("cmake/setup.cmake")
 
 include("cmake/compiler_features.cmake")
 include("cmake/compiler_warnings.cmake")
-include("cmake/conan.cmake")
 
-set_property(GLOBAL PROPERTY CXX_STANDARD 20)
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER "predefined")
+option(
+    DUBUPACK_BUILD_TESTS
+    "If the dubu-pack tests are built in addition to the dubu-pack library."
+    ON)
 
-include(GoogleTest)
-enable_testing()
+if(DUBUPACK_BUILD_TESTS)
+    add_subdirectory("test")
+endif()
 
-add_subdirectory("app")
+add_subdirectory("dubu-pack")
