@@ -18,6 +18,9 @@ option(DUBUPACK_BUILD_TESTS
     ON)
 
 if(DUBUPACK_BUILD_TESTS)
+    enable_testing()
+    include(GoogleTest)
+    include("thirdparty/googletest.cmake")
     add_subdirectory("test")
 endif()
 
