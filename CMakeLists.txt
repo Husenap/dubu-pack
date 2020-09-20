@@ -26,8 +26,8 @@ add_subdirectory("dubu_pack_cli")
 
 if(DUBUPACK_DEPLOYMENT_TESTS)
     dubu_pack_package(
-        "${dubu_pack_SOURCE_DIR}/test/bin/packed"
-        "${dubu_pack_SOURCE_DIR}/test/bin/assets")
+        ${dubu_pack_SOURCE_DIR}/test/bin/packed
+        ${dubu_pack_SOURCE_DIR}/test/bin/assets)
 endif()
 
 if(DUBUPACK_BUILD_TESTS)

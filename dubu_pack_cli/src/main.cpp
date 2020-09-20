@@ -32,6 +32,7 @@ int main(int argc, char** argv) {
 
         if (!std::filesystem::is_directory(packagePath)) {
 			std::cerr << "Invalid directory path: " << packagePath << std::endl;
+            continue;
         }
 
         std::cout << "Packing: " << packagePath << std::endl;
