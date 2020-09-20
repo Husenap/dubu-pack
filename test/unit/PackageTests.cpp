@@ -3,16 +3,23 @@
 #include <dubu_pack/dubu_pack.h>
 
 void read_test_file(dubu_pack::Package& package) {
-	{
-		auto fileContent = package.GetFileLocator()->ReadFile("test.txt");
-		ASSERT_TRUE(fileContent.has_value());
-		EXPECT_THAT(*fileContent,
-		            testing::ElementsAreArray({'H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd', '!'}));
-	}
+	for (int i = 0; i < 10000; ++i) {
+		{
+			auto fileContent = package.GetFileLocator()->ReadFile("test.txt");
+			ASSERT_TRUE(fileContent.has_value());
+			EXPECT_THAT(*fileContent,
+			            testing::ElementsAreArray({'H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd', '!'}));
+		}
 
-	{
-		auto fileContent = package.GetFileLocator()->ReadFile("this_file_does_not_exist.txt");
-		ASSERT_FALSE(fileContent.has_value());
+		{
+			auto fileContent = package.GetFileLocator()->ReadFile("icon.png");
+			ASSERT_TRUE(fileContent.has_value());
+		}
+
+		{
+			auto fileContent = package.GetFileLocator()->ReadFile("this_file_does_not_exist.txt");
+			ASSERT_FALSE(fileContent.has_value());
+		}
 	}
 }
 
