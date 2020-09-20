@@ -4,9 +4,9 @@
 
 namespace dubu_pack {
 
-enum class package_mode {
-	package,
-	filesystem,
+enum class PackageMode {
+	Package,
+	Filesystem,
 };
 
 class Package {
@@ -16,12 +16,12 @@ public:
 	auto& GetFileLocator() { return mFileLocator; }
 
 	std::string_view GetPackageName() const;
-	package_mode GetPackageMode() const;
+	PackageMode GetPackageMode() const;
 
 private:
 	std::string mPackageName;
 
-	package_mode mPackageMode;
+	PackageMode mPackageMode;
 
 	std::unique_ptr<IFileLocator> mFileLocator;
 };

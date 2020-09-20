@@ -26,19 +26,19 @@ TEST(PackageTests, package_name) {
 TEST(PackageTests, packed) {
 	dubu_pack::Package Package("packed");
 
-	EXPECT_EQ(Package.GetPackageMode(), dubu_pack::package_mode::package);
+	EXPECT_EQ(Package.GetPackageMode(), dubu_pack::PackageMode::Package);
 }
 
 TEST(PackageTests, unpacked) {
 	dubu_pack::Package Package("unpacked");
 
-	EXPECT_EQ(Package.GetPackageMode(), dubu_pack::package_mode::filesystem);
+	EXPECT_EQ(Package.GetPackageMode(), dubu_pack::PackageMode::Filesystem);
 }
 
 TEST(PackageTests, read_packed_test_file) {
 	dubu_pack::Package Package("packed");
 
-	EXPECT_EQ(Package.GetPackageMode(), dubu_pack::package_mode::package);
+	EXPECT_EQ(Package.GetPackageMode(), dubu_pack::PackageMode::Package);
 
 	read_test_file(Package);
 }
@@ -46,7 +46,7 @@ TEST(PackageTests, read_packed_test_file) {
 TEST(PackageTests, read_unpacked_test_file) {
 	dubu_pack::Package Package("unpacked");
 
-	EXPECT_EQ(Package.GetPackageMode(), dubu_pack::package_mode::filesystem);
+	EXPECT_EQ(Package.GetPackageMode(), dubu_pack::PackageMode::Filesystem);
 
 	read_test_file(Package);
 }
