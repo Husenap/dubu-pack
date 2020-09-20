@@ -3,7 +3,7 @@
 #include <dubu_pack/dubu_pack.h>
 
 void read_test_file(dubu_pack::Package& package) {
-	for (int i = 0; i < 10000; ++i) {
+	for (int i = 0; i < 100; ++i) {
 		{
 			auto fileContent = package.GetFileLocator()->ReadFile("test.txt");
 			ASSERT_TRUE(fileContent.has_value());
