@@ -1,36 +1,30 @@
-﻿#include "package.h"
+﻿#include "Package.h"
 
-#include "file_locator/filesystem_file_locator.h"
-#include "file_locator/package_file_locator.h"
-
-namespace package_internal {
-constexpr char* PackageExtension = ".dbp";
-}
+#include "file_locator/FilesystemFileLocator.h"
+#include "file_locator/PackageFileLocator.h"
 
 namespace dubu_pack {
 
-package::package(std::string_view packageName)
+Package::Package(std::string_view packageName)
     : mPackageName(packageName) {
 
-	mPackagePath = mPackageName;
-	mPackagePath.replace_extension(package_internal::PackageExtension);
+	std::filesystem::path packagePath = mPackageName;
+	packagePath.replace_extension(internal::PackageExtension);
 
-	auto cwd = std::filesystem::current_path();
-
-	if (std::filesystem::exists(mPackagePath)) {
+	if (std::filesystem::exists(packagePath)) {
 		mPackageMode = package_mode::package;
-		mFileLocator = std::make_unique<package_file_locator>();
+		mFileLocator = std::make_unique<PackageFileLocator>(packagePath);
 	} else {
 		mPackageMode = package_mode::filesystem;
-		mFileLocator = std::make_unique<filesystem_file_locator>();
+		mFileLocator = std::make_unique<FilesystemFileLocator>(mPackageName);
 	}
 }
 
-std::string_view package::get_package_name() const {
+std::string_view Package::GetPackageName() const {
 	return mPackageName;
 }
 
-dubu_pack::package_mode package::get_package_mode() const {
+dubu_pack::package_mode Package::GetPackageMode() const {
 	return mPackageMode;
 }
 

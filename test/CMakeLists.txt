@@ -1,7 +1,8 @@
 set(target_name "dubu_pack_test")
 
 set(src_unit
-    "unit/test.cpp")
+    "unit/PackerTests.cpp"
+    "unit/PackageTests.cpp")
 
 add_executable(${target_name} ${src_unit})
 

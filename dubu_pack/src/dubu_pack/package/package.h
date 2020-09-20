@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "file_locator/file_locator.h"
+#include "file_locator/IFileLocator.h"
 
 namespace dubu_pack {
 
@@ -9,22 +9,21 @@ enum class package_mode {
 	filesystem,
 };
 
-class package {
+class Package {
 public:
-	package(std::string_view packageName);
+	Package(std::string_view packageName);
 
-	auto& get_file_locator() { return mFileLocator; }
+	auto& GetFileLocator() { return mFileLocator; }
 
-	std::string_view get_package_name() const;
-	package_mode get_package_mode() const;
+	std::string_view GetPackageName() const;
+	package_mode GetPackageMode() const;
 
 private:
 	std::string mPackageName;
-	std::filesystem::path mPackagePath;
 
 	package_mode mPackageMode;
 
-	std::unique_ptr<file_locator> mFileLocator;
+	std::unique_ptr<IFileLocator> mFileLocator;
 };
 
 }  // namespace dubu_pack

@@ -1,4 +1,5 @@
 #pragma once
 
-#include "package/file_locator/file_locator.h"
-#include "package/package.h"
+#include "file_locator/IFileLocator.h"
+#include "package/Package.h"
+#include "packer/Packer.h"

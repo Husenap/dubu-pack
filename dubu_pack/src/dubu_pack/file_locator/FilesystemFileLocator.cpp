@@ -1,15 +1,20 @@
-#include "filesystem_file_locator.h"
+#include "FilesystemFileLocator.h"
 
 #include <fstream>
 
 namespace dubu_pack {
 
-std::optional<blob> filesystem_file_locator::read_file(std::string_view filePath) {
-	if (!std::filesystem::exists(filePath)) {
+FilesystemFileLocator::FilesystemFileLocator(std::string_view packageName)
+    : mPackagePath(packageName) {}
+
+std::optional<blob> FilesystemFileLocator::ReadFile(std::string_view filePath) {
+	std::filesystem::path path = mPackagePath / filePath;
+
+	if (!std::filesystem::exists(path)) {
 		return std::nullopt;
 	}
 
-	std::ifstream fileStream(filePath, std::ios_base::binary);
+	std::ifstream fileStream(path, std::ios_base::binary);
 
 	if (fileStream.fail()) {
 		return std::nullopt;
