@@ -1,5 +1,5 @@
-# cmake-project-template
+# dubu-pack
 
-Uses CMake for generating and Conan for package management.
+File Packer for use in games.
 
-![Build](https://github.com/Husenap/cmake-project-template/workflows/Build/badge.svg)
+![Build](https://github.com/Husenap/dubu-pack/workflows/Build/badge.svg)
