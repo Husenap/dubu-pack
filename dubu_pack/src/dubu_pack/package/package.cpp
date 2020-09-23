@@ -12,10 +12,10 @@ Package::Package(std::string_view packageName)
 	packagePath.replace_extension(internal::PackageExtension);
 
 	if (std::filesystem::exists(packagePath)) {
-		mPackageMode = package_mode::package;
+		mPackageMode = PackageMode::Package;
 		mFileLocator = std::make_unique<PackageFileLocator>(packagePath);
 	} else {
-		mPackageMode = package_mode::filesystem;
+		mPackageMode = PackageMode::Filesystem;
 		mFileLocator = std::make_unique<FilesystemFileLocator>(mPackageName);
 	}
 }
@@ -24,7 +24,7 @@ std::string_view Package::GetPackageName() const {
 	return mPackageName;
 }
 
-dubu_pack::package_mode Package::GetPackageMode() const {
+dubu_pack::PackageMode Package::GetPackageMode() const {
 	return mPackageMode;
 }
 

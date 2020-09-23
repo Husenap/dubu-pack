@@ -6,15 +6,6 @@
 
 namespace dubu_pack {
 
-std::filesystem::path StripRoot(const std::filesystem::path& path) {
-	auto parentPath = path.parent_path();
-	if (parentPath.empty() || parentPath.generic_string() == "/") {
-		return std::filesystem::path();
-	} else {
-		return StripRoot(parentPath) / path.filename();
-	}
-}
-
 Packer::Packer(std::string_view packageName)
     : mPackageName(packageName) {}
 
@@ -60,7 +51,7 @@ void Packer::Pack() {
 		auto fileSize = std::filesystem::file_size(filePath);
 
 		internal::FileHeader fileHeader{
-		    .filePath           = StripRoot(filePath),
+		    .filePath           = std::filesystem::relative(filePath, inputDirectoryPath),
 		    .originalFileSize   = static_cast<uint32_t>(fileSize),
 		    .compressedFileSize = 0,
 		    .position           = currentPosition,

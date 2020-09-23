@@ -13,9 +13,22 @@ set(DUBUPACK_FOLDER
     STRING
     "The folder that ${PROJECT_NAME} projects will be placed in.")
 
+option(DUBUPACK_DEPLOYMENT_TESTS
+    "If the ${PROJECT_NAME} deployment tests are executed in addition to the dubu-pack library."
+    OFF)
+
 option(DUBUPACK_BUILD_TESTS
     "If the ${PROJECT_NAME} tests are built in addition to the dubu-pack library."
     ON)
+
+add_subdirectory("dubu_pack")
+add_subdirectory("dubu_pack_cli")
+
+if(DUBUPACK_DEPLOYMENT_TESTS)
+    dubu_pack_package(
+        ${dubu_pack_SOURCE_DIR}/test/bin/packed
+        ${dubu_pack_SOURCE_DIR}/test/bin/assets)
+endif()
 
 if(DUBUPACK_BUILD_TESTS)
     enable_testing()
@@ -23,5 +36,3 @@ if(DUBUPACK_BUILD_TESTS)
     include("thirdparty/googletest.cmake")
     add_subdirectory("test")
 endif()
-
-add_subdirectory("dubu_pack")

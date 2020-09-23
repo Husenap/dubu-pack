@@ -6,4 +6,8 @@ TEST(PackerTests, pack) {
     dubu_pack::Packer packer("assets");
 
     packer.Pack();
+
+    dubu_pack::Package package("assets");
+    
+    EXPECT_EQ(package.GetPackageMode(), dubu_pack::PackageMode::Package);
 }
