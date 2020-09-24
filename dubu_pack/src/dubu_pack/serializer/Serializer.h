@@ -8,7 +8,7 @@ class Endian {
 private:
 	Endian()                       = delete;
 	static constexpr uint32_t data = 0x01020304;
-	static constexpr uint8_t magic = (const uint8_t)data;
+	static constexpr uint8_t magic = static_cast<uint8_t>(data);
 
 public:
 	static constexpr bool little = magic == 0x04;
@@ -70,7 +70,7 @@ inline std::string Read<std::string>(std::ifstream& stream) {
 template<>
 inline std::streampos Write<std::string>(std::ofstream& stream, std::string data) {
 	auto position = stream.tellp();
-	Write<uint32_t>(stream, data.size());
+	Write<uint32_t>(stream, static_cast<uint32_t>(data.size()));
 	stream.write(&data[0], data.size());
 	return position;
 }

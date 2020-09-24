@@ -35,8 +35,11 @@ set(src_files
     ${src_package}
     ${src_dubu_pack})
 
-# Project
 add_library(${target_name} STATIC ${src_files})
+
+target_link_libraries(${target_name}
+    compiler_features
+    compiler_warnings)
 
 target_precompile_headers(${target_name} PUBLIC ${src_precompiled})
 
@@ -51,4 +54,4 @@ source_group("src/precompiled" REGULAR_EXPRESSION "cmake_pch\.[ch]xx")
 target_include_directories(${target_name} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/dubu_pack)
 target_include_directories(${target_name} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-set_target_properties(${target_name} PROPERTIES FOLDER ${DUBUPACK_FOLDER})
+set_target_properties(${target_name} PROPERTIES FOLDER ${PROJECT_NAME}_FOLDER})
