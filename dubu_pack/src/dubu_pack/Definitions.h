@@ -24,7 +24,7 @@ struct FileHeader {
 constexpr uint32_t MagicNumber   = FourCC<'D', 'U', 'B', 'U'>::value;
 constexpr uint32_t VersionNumber = FourCC<0, 1, 0, 0>::value;
 
-constexpr char* PackageExtension = ".dbp";
+constexpr const char* PackageExtension = ".dbp";
 
 }  // namespace dubu_pack::internal
 
