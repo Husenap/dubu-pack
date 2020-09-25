@@ -17,7 +17,7 @@ Unpacker::Unpacker(std::filesystem::path packagePath)
 	}
 
 	mPackageHeader.numberOfFiles = serializer::Read<uint32_t>(mStream);
-	mPackageHeader.baseOffset    = serializer::Read<uint64_t>(mStream);
+	mPackageHeader.baseOffset    = serializer::Read<int64_t>(mStream);
 
 	for (uint32_t i = 0; i < mPackageHeader.numberOfFiles; ++i) {
 		internal::FileHeader fileHeader;
@@ -25,7 +25,7 @@ Unpacker::Unpacker(std::filesystem::path packagePath)
 		fileHeader.filePath           = serializer::Read<std::string>(mStream);
 		fileHeader.originalFileSize   = serializer::Read<uint32_t>(mStream);
 		fileHeader.compressedFileSize = serializer::Read<uint32_t>(mStream);
-		fileHeader.position           = serializer::Read<uint64_t>(mStream);
+		fileHeader.position           = serializer::Read<int64_t>(mStream);
 
 		mFileIndex[fileHeader.filePath] = fileHeader;
 	}
@@ -37,7 +37,7 @@ std::optional<blob> Unpacker::ReadFile(std::filesystem::path filePath) {
 		return std::nullopt;
 	}
 
-	serializer::Seek(mStream, static_cast<std::streamoff>(mPackageHeader.baseOffset + it->second.position));
+	serializer::Seek(mStream, static_cast<std::streampos>(mPackageHeader.baseOffset + it->second.position));
 
 	blob data;
 
