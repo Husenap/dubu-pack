@@ -1,4 +1,5 @@
-![Build](https://github.com/Husenap/dubu-pack/workflows/Build/badge.svg)
+![Windows](https://github.com/Husenap/dubu-pack/workflows/Windows/badge.svg)
+![Ubuntu](https://github.com/Husenap/dubu-pack/workflows/Ubuntu/badge.svg)
 
 ```
    _     _                       _   
