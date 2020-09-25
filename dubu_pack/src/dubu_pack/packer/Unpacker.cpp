@@ -37,7 +37,7 @@ std::optional<blob> Unpacker::ReadFile(std::filesystem::path filePath) {
 		return std::nullopt;
 	}
 
-	serializer::Seek(mStream, mPackageHeader.baseOffset + it->second.position);
+	serializer::Seek(mStream, static_cast<std::streamoff>(mPackageHeader.baseOffset + it->second.position));
 
 	blob data;
 
