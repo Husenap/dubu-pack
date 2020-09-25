@@ -11,14 +11,14 @@ struct PackageHeader {
 	uint32_t magicNumber;
 	uint32_t versionNumber;
 	uint32_t numberOfFiles;
-	int64_t baseOffset;
+	uint64_t baseOffset;
 };
 
 struct FileHeader {
 	std::filesystem::path filePath;
 	uint32_t originalFileSize;
 	uint32_t compressedFileSize;
-	int64_t position;
+	uint64_t position;
 };
 
 constexpr uint32_t MagicNumber   = FourCC<'D', 'U', 'B', 'U'>::value;

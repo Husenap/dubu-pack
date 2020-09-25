@@ -44,7 +44,7 @@ void Packer::Pack() {
 	serializer::Write(outputPackageFile, packageHeader.numberOfFiles);
 	const auto baseOffsetPosition = serializer::Write(outputPackageFile, packageHeader.baseOffset);
 
-	int64_t currentPosition = 0;
+	uint64_t currentPosition = 0;
 
 	// Write file headers
 	for (const auto& filePath : filePaths) {
@@ -65,7 +65,7 @@ void Packer::Pack() {
 		serializer::Write(outputPackageFile, fileHeader.position);
 	}
 
-	packageHeader.baseOffset = static_cast<int64_t>(outputPackageFile.tellp());
+	packageHeader.baseOffset = static_cast<uint64_t>(outputPackageFile.tellp());
 
 	serializer::Seek(outputPackageFile, baseOffsetPosition);
 	serializer::Write(outputPackageFile, packageHeader.baseOffset);
