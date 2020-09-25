@@ -65,7 +65,7 @@ void Packer::Pack() {
 		serializer::Write(outputPackageFile, fileHeader.position);
 	}
 
-	packageHeader.baseOffset = static_cast<uint64_t>(outputPackageFile.tellp());
+	packageHeader.baseOffset = static_cast<int64_t>(outputPackageFile.tellp());
 
 	serializer::Seek(outputPackageFile, baseOffsetPosition);
 	serializer::Write(outputPackageFile, packageHeader.baseOffset);
