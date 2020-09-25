@@ -1,7 +1,7 @@
 #include <iostream>
 #include <filesystem>
 
-#include <dubu_pack/dubu_pack.h>
+#include <dubu_pack/packer/Packer.h>
 
 constexpr const char* DubuPackLogo = R"(
    _     _                       _   
