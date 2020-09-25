@@ -7,10 +7,12 @@ target_link_libraries(${target_name}
     compiler_warnings
     dubu_pack)
 
-set_target_properties(${target_name} PROPERTIES FOLDER ${PROJECT_NAME}_FOLDER)
+set_target_properties(${target_name} PROPERTIES FOLDER ${${PROJECT_NAME}_FOLDER})
 
 function(dubu_pack_package)
     add_custom_target(
         dubu_pack_packer ALL
         COMMAND dubu_pack_cli ${ARGV})
+
+    set_target_properties(dubu_pack_packer PROPERTIES FOLDER ${${PROJECT_NAME}_FOLDER})
 endfunction()

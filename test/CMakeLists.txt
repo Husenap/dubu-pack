@@ -10,7 +10,7 @@ target_link_libraries(${target_name}
     gmock_main
     dubu_pack)
 
-set_target_properties(${target_name} PROPERTIES FOLDER ${PROJECT_NAME}_FOLDER/test)
+set_target_properties(${target_name} PROPERTIES FOLDER ${${PROJECT_NAME}_FOLDER}/test)
 
 add_custom_command(
     TARGET ${target_name} POST_BUILD
