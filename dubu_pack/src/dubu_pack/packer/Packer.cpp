@@ -2,7 +2,7 @@
 
 #include <fstream>
 
-#include "serializer/Serializer.h"
+#include "dubu_pack/serializer/Serializer.h"
 
 namespace dubu_pack {
 
@@ -44,7 +44,7 @@ void Packer::Pack() {
 	serializer::Write(outputPackageFile, packageHeader.numberOfFiles);
 	const auto baseOffsetPosition = serializer::Write(outputPackageFile, packageHeader.baseOffset);
 
-	uint64_t currentPosition = 0;
+	int64_t currentPosition = 0;
 
 	// Write file headers
 	for (const auto& filePath : filePaths) {
@@ -57,7 +57,7 @@ void Packer::Pack() {
 		    .position           = currentPosition,
 		};
 
-		currentPosition += fileSize;
+		currentPosition += static_cast<int64_t>(fileSize);
 
 		serializer::Write(outputPackageFile, fileHeader.filePath.generic_string());
 		serializer::Write(outputPackageFile, fileHeader.originalFileSize);
@@ -65,7 +65,7 @@ void Packer::Pack() {
 		serializer::Write(outputPackageFile, fileHeader.position);
 	}
 
-	packageHeader.baseOffset = outputPackageFile.tellp();
+	packageHeader.baseOffset = static_cast<int64_t>(outputPackageFile.tellp());
 
 	serializer::Seek(outputPackageFile, baseOffsetPosition);
 	serializer::Write(outputPackageFile, packageHeader.baseOffset);

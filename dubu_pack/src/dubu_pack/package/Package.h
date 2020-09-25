@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "file_locator/IFileLocator.h"
+#include "dubu_pack/file_locator/IFileLocator.h"
 
 namespace dubu_pack {
 

@@ -41,7 +41,7 @@ inline void Seek(std::ifstream& stream, std::streampos position) {
 template <typename T>
 inline T Read(std::ifstream& stream) {
 	T data;
-	stream.read((char*)&data, sizeof(T));
+	stream.read(reinterpret_cast<char*>(&data), sizeof(T));
 	if (Endian::big) {
 		FlipEndian(data);
 	}
@@ -54,7 +54,7 @@ inline std::streampos Write(std::ofstream& stream, T data) {
 	if (Endian::big) {
 		FlipEndian(data);
 	}
-	stream.write((char*)&data, sizeof(T));
+	stream.write(reinterpret_cast<char*>(&data), sizeof(T));
 	return position;
 }
 
@@ -71,7 +71,7 @@ template<>
 inline std::streampos Write<std::string>(std::ofstream& stream, std::string data) {
 	auto position = stream.tellp();
 	Write<uint32_t>(stream, static_cast<uint32_t>(data.size()));
-	stream.write(&data[0], data.size());
+	stream.write(&data[0], static_cast<std::streamsize>(data.size()));
 	return position;
 }
 

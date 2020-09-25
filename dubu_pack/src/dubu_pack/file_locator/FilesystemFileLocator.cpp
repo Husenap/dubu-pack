@@ -21,12 +21,12 @@ std::optional<blob> FilesystemFileLocator::ReadFile(std::string_view filePath) {
 	}
 
 	fileStream.seekg(0, fileStream.end);
-	auto fileSize = static_cast<std::size_t>(fileStream.tellg());
+	auto fileSize = fileStream.tellg();
 	fileStream.seekg(0, fileStream.beg);
 
 	blob data;
 
-	data.resize(static_cast<std::size_t>(fileSize));
+	data.resize(static_cast<size_t>(fileSize));
 	fileStream.read(data.data(), fileSize);
 
 	return data;

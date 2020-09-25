@@ -25,13 +25,13 @@ option(${PROJECT_NAME}_BUILD_TESTS
 add_subdirectory("dubu_pack")
 add_subdirectory("dubu_pack_cli")
 
-if(${PROJECT_NAME}_DEPLOYMENT_TESTS)
+if(${${PROJECT_NAME}_DEPLOYMENT_TESTS})
     dubu_pack_package(
         ${dubu_pack_SOURCE_DIR}/test/bin/packed
         ${dubu_pack_SOURCE_DIR}/test/bin/assets)
 endif()
 
-if(${PROJECT_NAME}_BUILD_TESTS)
+if(${${PROJECT_NAME}_BUILD_TESTS})
     enable_testing()
     include(GoogleTest)
     include("thirdparty/googletest.cmake")
