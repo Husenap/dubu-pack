@@ -2,7 +2,7 @@
 
 #include <fstream>
 
-#include "serializer/Serializer.h"
+#include "dubu_pack/serializer/Serializer.h"
 
 namespace dubu_pack {
 

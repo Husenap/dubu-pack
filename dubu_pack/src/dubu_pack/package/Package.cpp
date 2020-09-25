@@ -1,7 +1,7 @@
 ﻿#include "Package.h"
 
-#include "file_locator/FilesystemFileLocator.h"
-#include "file_locator/PackageFileLocator.h"
+#include "dubu_pack/file_locator/FilesystemFileLocator.h"
+#include "dubu_pack/file_locator/PackageFileLocator.h"
 
 namespace dubu_pack {
 
