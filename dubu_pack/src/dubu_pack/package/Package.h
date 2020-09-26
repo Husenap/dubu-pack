@@ -2,7 +2,7 @@
 
 #include "dubu_pack/file_locator/IFileLocator.h"
 
-namespace dubu_pack {
+namespace dubu::pack {
 
 enum class PackageMode {
 	Package,
@@ -26,4 +26,4 @@ private:
 	std::unique_ptr<IFileLocator> mFileLocator;
 };
 
-}  // namespace dubu_pack
+}  // namespace dubu::pack

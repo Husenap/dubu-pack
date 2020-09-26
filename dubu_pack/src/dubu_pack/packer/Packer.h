@@ -1,6 +1,6 @@
 #pragma once
 
-namespace dubu_pack {
+namespace dubu::pack {
 
 class Packer {
 public:
@@ -12,4 +12,4 @@ private:
 	std::string mPackageName;
 };
 
-}  // namespace dubu_pack
+}  // namespace dubu::pack

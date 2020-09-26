@@ -3,7 +3,7 @@
 #include "IFileLocator.h"
 #include "dubu_pack/packer/Unpacker.h"
 
-namespace dubu_pack {
+namespace dubu::pack {
 
 class PackageFileLocator : public IFileLocator {
 public:
@@ -15,4 +15,4 @@ private:
 	Unpacker mUnpacker;
 };
 
-}  // namespace dubu_pack
+}  // namespace dubu::pack

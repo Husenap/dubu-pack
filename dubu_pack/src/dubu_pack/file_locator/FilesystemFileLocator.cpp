@@ -2,7 +2,7 @@
 
 #include <fstream>
 
-namespace dubu_pack {
+namespace dubu::pack {
 
 FilesystemFileLocator::FilesystemFileLocator(std::string_view packageName)
     : mPackagePath(packageName) {}
@@ -32,4 +32,4 @@ std::optional<blob> FilesystemFileLocator::ReadFile(std::string_view filePath) {
 	return data;
 }
 
-}  // namespace dubu_pack
+}  // namespace dubu::pack

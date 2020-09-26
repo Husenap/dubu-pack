@@ -22,6 +22,8 @@ option(${PROJECT_NAME}_BUILD_TESTS
     "If the ${PROJECT_NAME} tests are built in addition to the ${PROJECT_NAME} library."
     ON)
 
+include("thirdparty/dubu_serialize.cmake")
+
 add_subdirectory("dubu_pack")
 add_subdirectory("dubu_pack_cli")
 
@@ -35,5 +37,5 @@ if(${${PROJECT_NAME}_BUILD_TESTS})
     enable_testing()
     include(GoogleTest)
     include("thirdparty/googletest.cmake")
-    add_subdirectory("test")
+    add_subdirectory("dubu_pack_test")
 endif()

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace dubu_pack {
+namespace dubu::pack {
 
 class IFileLocator {
 public:
@@ -9,4 +9,4 @@ public:
 	virtual std::optional<blob> ReadFile(std::string_view filePath) = 0;
 };
 
-}  // namespace dubu_pack
+}  // namespace dubu::pack

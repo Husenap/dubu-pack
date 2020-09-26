@@ -3,11 +3,10 @@
 #include "dubu_pack/file_locator/FilesystemFileLocator.h"
 #include "dubu_pack/file_locator/PackageFileLocator.h"
 
-namespace dubu_pack {
+namespace dubu::pack {
 
 Package::Package(std::string_view packageName)
     : mPackageName(packageName) {
-
 	std::filesystem::path packagePath = mPackageName;
 	packagePath.replace_extension(internal::PackageExtension);
 
@@ -24,8 +23,8 @@ std::string_view Package::GetPackageName() const {
 	return mPackageName;
 }
 
-dubu_pack::PackageMode Package::GetPackageMode() const {
+dubu::pack::PackageMode Package::GetPackageMode() const {
 	return mPackageMode;
 }
 
-}  // namespace dubu_pack
+}  // namespace dubu::pack

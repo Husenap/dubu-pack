@@ -1,6 +1,8 @@
 #pragma once
 
-namespace dubu_pack {
+#include <dubu_serialize/dubu_serialize.h>
+
+namespace dubu::pack {
 
 class Unpacker {
 public:
@@ -9,11 +11,11 @@ public:
 	std::optional<blob> ReadFile(std::filesystem::path filePath);
 
 private:
-	std::ifstream mStream;
+	dubu::serialize::FileBuffer mFileBuffer;
 
 	internal::PackageHeader mPackageHeader;
 
 	std::map<std::filesystem::path, internal::FileHeader> mFileIndex;
 };
 
-}  // namespace dubu_pack
+}  // namespace dubu::pack
