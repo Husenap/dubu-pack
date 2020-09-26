@@ -1,7 +1,7 @@
 set(target_name "dubu_pack_test")
 
 set(src_unit
-	"unit/PackerTests.cpp"
+    "unit/PackerTests.cpp"
     "unit/PackageTests.cpp")
 
 add_executable(${target_name} ${src_unit})
@@ -19,5 +19,5 @@ add_custom_command(
     $<TARGET_FILE_DIR:${target_name}>)
 
 gtest_discover_tests(${target_name}
-	WORKING_DIRECTORY $<TARGET_FILE_DIR:${target_name}>
-	VS_DEBUGGER_WORKING_DIRECTORY $<TARGET_FILE_DIR:${target_name}>)
+    WORKING_DIRECTORY $<TARGET_FILE_DIR:${target_name}>
+    VS_DEBUGGER_WORKING_DIRECTORY $<TARGET_FILE_DIR:${target_name}>)

@@ -1,8 +1,6 @@
 #include "Packer.h"
 
-#include <fstream>
-
-#include "dubu_pack/serializer/Serializer.h"
+#include <dubu_serialize/dubu_serialize.h>
 
 namespace dubu_pack {
 
@@ -30,7 +28,7 @@ void Packer::Pack() {
 		filePaths.push_back(path);
 	}
 
-	std::ofstream outputPackageFile(outputPackagePath, std::ios_base::binary);
+	dubu::serialize::FileBuffer fileBuffer(outputPackagePath, dubu::serialize::FileBuffer::Mode::Write);
 
 	internal::PackageHeader packageHeader{
 	    .magicNumber   = internal::MagicNumber,
@@ -39,10 +37,11 @@ void Packer::Pack() {
 	    .baseOffset    = 0,
 	};
 
-	serializer::Write(outputPackageFile, packageHeader.magicNumber);
-	serializer::Write(outputPackageFile, packageHeader.versionNumber);
-	serializer::Write(outputPackageFile, packageHeader.numberOfFiles);
-	const auto baseOffsetPosition = serializer::Write(outputPackageFile, packageHeader.baseOffset);
+	fileBuffer << packageHeader.magicNumber;
+	fileBuffer << packageHeader.versionNumber;
+	fileBuffer << packageHeader.numberOfFiles;
+	const auto baseOffsetPosition = fileBuffer.Tell<int64_t>();
+	fileBuffer << packageHeader.baseOffset;
 
 	int64_t currentPosition = 0;
 
@@ -59,22 +58,20 @@ void Packer::Pack() {
 
 		currentPosition += static_cast<int64_t>(fileSize);
 
-		serializer::Write(outputPackageFile, fileHeader.filePath.generic_string());
-		serializer::Write(outputPackageFile, fileHeader.originalFileSize);
-		serializer::Write(outputPackageFile, fileHeader.compressedFileSize);
-		serializer::Write(outputPackageFile, fileHeader.position);
+		fileBuffer << fileHeader;
 	}
 
-	packageHeader.baseOffset = static_cast<int64_t>(outputPackageFile.tellp());
+	packageHeader.baseOffset = fileBuffer.Tell<int64_t>();
 
-	serializer::Seek(outputPackageFile, baseOffsetPosition);
-	serializer::Write(outputPackageFile, packageHeader.baseOffset);
-	serializer::Seek(outputPackageFile, packageHeader.baseOffset);
+	fileBuffer.Seek(baseOffsetPosition);
+	fileBuffer << packageHeader.baseOffset;
+	fileBuffer.Seek(packageHeader.baseOffset);
 
+	std::ofstream offf;
 	// Write file data
 	for (const auto& filePath : filePaths) {
 		std::ifstream fileStream(filePath, std::ios_base::binary);
-		outputPackageFile << fileStream.rdbuf();
+		fileBuffer.Write(fileStream);
 	}
 }
 
