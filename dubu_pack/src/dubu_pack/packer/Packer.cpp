@@ -67,7 +67,6 @@ void Packer::Pack() {
 	fileBuffer << packageHeader.baseOffset;
 	fileBuffer.Seek(packageHeader.baseOffset);
 
-	std::ofstream offf;
 	// Write file data
 	for (const auto& filePath : filePaths) {
 		std::ifstream fileStream(filePath, std::ios_base::binary);
