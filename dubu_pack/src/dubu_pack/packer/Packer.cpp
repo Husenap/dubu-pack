@@ -2,7 +2,7 @@
 
 #include <dubu_serialize/dubu_serialize.h>
 
-namespace dubu_pack {
+namespace dubu::pack {
 
 Packer::Packer(std::string_view packageName)
     : mPackageName(packageName) {}
@@ -74,4 +74,4 @@ void Packer::Pack() {
 	}
 }
 
-}  // namespace dubu_pack
+}  // namespace dubu::pack

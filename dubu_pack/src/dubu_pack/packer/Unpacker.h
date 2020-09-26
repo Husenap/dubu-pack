@@ -2,7 +2,7 @@
 
 #include <dubu_serialize/dubu_serialize.h>
 
-namespace dubu_pack {
+namespace dubu::pack {
 
 class Unpacker {
 public:
@@ -18,4 +18,4 @@ private:
 	std::map<std::filesystem::path, internal::FileHeader> mFileIndex;
 };
 
-}  // namespace dubu_pack
+}  // namespace dubu::pack

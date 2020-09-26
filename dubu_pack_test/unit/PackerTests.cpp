@@ -3,11 +3,11 @@
 #include <dubu_pack/dubu_pack.h>
 
 TEST(PackerTests, pack) {
-    dubu_pack::Packer packer("assets");
+	dubu::pack::Packer packer("assets");
 
-    packer.Pack();
+	packer.Pack();
 
-    dubu_pack::Package package("assets");
-    
-    EXPECT_EQ(package.GetPackageMode(), dubu_pack::PackageMode::Package);
+	dubu::pack::Package package("assets");
+
+	EXPECT_EQ(package.GetPackageMode(), dubu::pack::PackageMode::Package);
 }

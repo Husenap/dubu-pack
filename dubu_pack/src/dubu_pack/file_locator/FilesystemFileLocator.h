@@ -2,7 +2,7 @@
 
 #include "IFileLocator.h"
 
-namespace dubu_pack {
+namespace dubu::pack {
 
 class FilesystemFileLocator : public IFileLocator {
 public:
@@ -14,4 +14,4 @@ private:
 	std::filesystem::path mPackagePath;
 };
 
-}  // namespace dubu_pack
+}  // namespace dubu::pack

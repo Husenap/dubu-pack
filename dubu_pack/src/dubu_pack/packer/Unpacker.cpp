@@ -1,6 +1,6 @@
 #include "Unpacker.h"
 
-namespace dubu_pack {
+namespace dubu::pack {
 
 Unpacker::Unpacker(std::filesystem::path packagePath)
     : mFileBuffer(packagePath, dubu::serialize::FileBuffer::Mode::Read) {
@@ -37,4 +37,4 @@ std::optional<blob> Unpacker::ReadFile(std::filesystem::path filePath) {
 	return data;
 }
 
-}  // namespace dubu_pack
+}  // namespace dubu::pack

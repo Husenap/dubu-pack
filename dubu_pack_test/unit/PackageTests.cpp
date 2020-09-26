@@ -2,7 +2,7 @@
 
 #include <dubu_pack/dubu_pack.h>
 
-void read_test_file(dubu_pack::Package& package) {
+void read_test_file(dubu::pack::Package& package) {
 	for (int i = 0; i < 100; ++i) {
 		{
 			auto fileContent = package.GetFileLocator()->ReadFile("test.txt");
@@ -22,38 +22,37 @@ void read_test_file(dubu_pack::Package& package) {
 		}
 	}
 }
-
 TEST(PackageTests, package_name) {
-	dubu_pack::Package Package("assets");
+	dubu::pack::Package Package("assets");
 
 	EXPECT_STREQ("assets", Package.GetPackageName().data());
 	EXPECT_STRNE("random name", Package.GetPackageName().data());
 }
 
 TEST(PackageTests, packed) {
-	dubu_pack::Package Package("packed");
+	dubu::pack::Package Package("packed");
 
-	EXPECT_EQ(Package.GetPackageMode(), dubu_pack::PackageMode::Package);
+	EXPECT_EQ(Package.GetPackageMode(), dubu::pack::PackageMode::Package);
 }
 
 TEST(PackageTests, unpacked) {
-	dubu_pack::Package Package("unpacked");
+	dubu::pack::Package Package("unpacked");
 
-	EXPECT_EQ(Package.GetPackageMode(), dubu_pack::PackageMode::Filesystem);
+	EXPECT_EQ(Package.GetPackageMode(), dubu::pack::PackageMode::Filesystem);
 }
 
 TEST(PackageTests, read_packed_test_file) {
-	dubu_pack::Package Package("packed");
+	dubu::pack::Package Package("packed");
 
-	EXPECT_EQ(Package.GetPackageMode(), dubu_pack::PackageMode::Package);
+	EXPECT_EQ(Package.GetPackageMode(), dubu::pack::PackageMode::Package);
 
 	read_test_file(Package);
 }
 
 TEST(PackageTests, read_unpacked_test_file) {
-	dubu_pack::Package Package("unpacked");
+	dubu::pack::Package Package("unpacked");
 
-	EXPECT_EQ(Package.GetPackageMode(), dubu_pack::PackageMode::Filesystem);
+	EXPECT_EQ(Package.GetPackageMode(), dubu::pack::PackageMode::Filesystem);
 
 	read_test_file(Package);
 }

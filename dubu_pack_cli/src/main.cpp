@@ -1,5 +1,5 @@
-#include <iostream>
 #include <filesystem>
+#include <iostream>
 
 #include <dubu_pack/packer/Packer.h>
 
@@ -15,16 +15,16 @@ int main(int argc, char** argv) {
 	std::cout << DubuPackLogo << std::endl;
 
 	for (int i = 1; i < argc; ++i) {
-        std::string packagePath = argv[i];
+		std::string packagePath = argv[i];
 
-        if (!std::filesystem::is_directory(packagePath)) {
+		if (!std::filesystem::is_directory(packagePath)) {
 			std::cerr << "Invalid directory path: " << packagePath << std::endl;
-            continue;
-        }
+			continue;
+		}
 
-        std::cout << "Packing: " << packagePath << std::endl;
-        dubu_pack::Packer packer(packagePath);
-        packer.Pack();
+		std::cout << "Packing: " << packagePath << std::endl;
+		dubu::pack::Packer packer(packagePath);
+		packer.Pack();
 	}
 
 	return 0;

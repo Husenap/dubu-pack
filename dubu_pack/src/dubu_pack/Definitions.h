@@ -2,7 +2,7 @@
 
 #include <dubu_serialize/dubu_serialize.h>
 
-namespace dubu_pack::internal {
+namespace dubu::pack::internal {
 
 template <char a, char b, char c, char d>
 struct FourCC {
@@ -54,10 +54,10 @@ struct FileHeader {
 
 constexpr const char* PackageExtension = ".dbp";
 
-}  // namespace dubu_pack::internal
+}  // namespace dubu::pack::internal
 
-namespace dubu_pack {
+namespace dubu::pack {
 
 using blob = std::vector<char>;
 
-}  // namespace dubu_pack
+}  // namespace dubu::pack
