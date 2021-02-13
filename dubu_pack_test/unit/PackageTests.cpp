@@ -1,6 +1,5 @@
-#include <gmock/gmock.h>
-
 #include <dubu_pack/dubu_pack.h>
+#include <gmock/gmock.h>
 
 void read_test_file(dubu::pack::Package& package) {
 	for (int i = 0; i < 100; ++i) {
@@ -17,7 +16,8 @@ void read_test_file(dubu::pack::Package& package) {
 		}
 
 		{
-			auto fileContent = package.GetFileLocator()->ReadFile("this_file_does_not_exist.txt");
+			auto fileContent = package.GetFileLocator()->ReadFile(
+			    "this_file_does_not_exist.txt");
 			ASSERT_FALSE(fileContent.has_value());
 		}
 	}
