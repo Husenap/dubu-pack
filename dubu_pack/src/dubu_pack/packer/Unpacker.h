@@ -16,6 +16,8 @@ private:
 	internal::PackageHeader mPackageHeader;
 
 	std::map<std::filesystem::path, internal::FileHeader> mFileIndex;
+
+	blob mCompressionBuffer;
 };
 
 }  // namespace dubu::pack

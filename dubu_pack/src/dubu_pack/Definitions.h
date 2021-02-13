@@ -10,7 +10,7 @@ struct FourCC {
 };
 
 constexpr uint32_t MagicNumber   = FourCC<'D', 'U', 'B', 'U'>::value;
-constexpr uint32_t VersionNumber = FourCC<0, 2, 0, 0>::value;
+constexpr uint32_t VersionNumber = FourCC<0, 3, 0, 0>::value;
 
 struct PackageHeader {
 	uint32_t magicNumber;

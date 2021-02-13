@@ -36,6 +36,7 @@ add_library(${target_name} STATIC ${src_files})
 target_link_libraries(${target_name}
     compiler_features
     compiler_warnings
+    zlib
     dubu_serialize)
 
 target_precompile_headers(${target_name} PUBLIC ${src_precompiled})

@@ -23,6 +23,7 @@ option(${PROJECT_NAME}_BUILD_TESTS
     ON)
 
 include("thirdparty/dubu_serialize.cmake")
+include("thirdparty/zlib.cmake")
 
 add_subdirectory("dubu_pack")
 add_subdirectory("dubu_pack_cli")
