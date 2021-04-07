@@ -8,5 +8,6 @@ FetchContent_Declare(
 )
 
 set(dubu_serialize_BUILD_TESTS OFF)
+set(dubu_serialize_FOLDER "thirdparty/dubu_serialize" CACHE STRING "" FORCE)
 
 FetchContent_MakeAvailable(dubu_serialize)

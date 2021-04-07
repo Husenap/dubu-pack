@@ -1,6 +1,5 @@
-#include <gmock/gmock.h>
-
 #include <dubu_pack/dubu_pack.h>
+#include <gmock/gmock.h>
 
 void read_test_file(dubu::pack::Package& package) {
 	for (int i = 0; i < 100; ++i) {
@@ -17,7 +16,8 @@ void read_test_file(dubu::pack::Package& package) {
 		}
 
 		{
-			auto fileContent = package.GetFileLocator()->ReadFile("this_file_does_not_exist.txt");
+			auto fileContent = package.GetFileLocator()->ReadFile(
+			    "this_file_does_not_exist.txt");
 			ASSERT_FALSE(fileContent.has_value());
 		}
 	}
@@ -30,7 +30,7 @@ TEST(PackageTests, package_name) {
 }
 
 TEST(PackageTests, packed) {
-	dubu::pack::Package Package("packed");
+	dubu::pack::Package Package("assets");
 
 	EXPECT_EQ(Package.GetPackageMode(), dubu::pack::PackageMode::Package);
 }
@@ -42,7 +42,15 @@ TEST(PackageTests, unpacked) {
 }
 
 TEST(PackageTests, read_packed_test_file) {
-	dubu::pack::Package Package("packed");
+	dubu::pack::Package Package("assets");
+
+	EXPECT_EQ(Package.GetPackageMode(), dubu::pack::PackageMode::Package);
+
+	read_test_file(Package);
+}
+
+TEST(PackageTests, read_packed_compressed_test_file) {
+	dubu::pack::Package Package("assets_with_compression");
 
 	EXPECT_EQ(Package.GetPackageMode(), dubu::pack::PackageMode::Package);
 

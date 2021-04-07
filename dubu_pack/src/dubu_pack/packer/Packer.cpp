@@ -1,11 +1,13 @@
 #include "Packer.h"
 
 #include <dubu_serialize/dubu_serialize.h>
+#include <zlib/zlib.h>
 
 namespace dubu::pack {
 
-Packer::Packer(std::string_view packageName)
-    : mPackageName(packageName) {}
+Packer::Packer(std::string_view packageName, bool useCompression)
+    : mPackageName(packageName)
+    , mUseCompression(useCompression) {}
 
 void Packer::Pack() {
 	std::filesystem::path inputDirectoryPath = mPackageName;
@@ -16,10 +18,13 @@ void Packer::Pack() {
 	std::filesystem::path outputPackagePath;
 	outputPackagePath = mPackageName;
 	outputPackagePath.replace_extension(internal::PackageExtension);
+	std::filesystem::path temporaryPackagePath = outputPackagePath;
+	temporaryPackagePath.replace_extension(".tmp");
 
 	std::vector<std::filesystem::path> filePaths;
 
-	for (auto& p : std::filesystem::recursive_directory_iterator(inputDirectoryPath)) {
+	for (auto& p :
+	     std::filesystem::recursive_directory_iterator(inputDirectoryPath)) {
 		auto path = p.path();
 		if (std::filesystem::is_directory(path)) {
 			continue;
@@ -28,7 +33,8 @@ void Packer::Pack() {
 		filePaths.push_back(path);
 	}
 
-	dubu::serialize::FileBuffer fileBuffer(outputPackagePath, dubu::serialize::FileBuffer::Mode::Write);
+	dubu::serialize::FileBuffer packageFileBuffer(
+	    outputPackagePath, dubu::serialize::FileBuffer::Mode::Write);
 
 	internal::PackageHeader packageHeader{
 	    .magicNumber   = internal::MagicNumber,
@@ -37,41 +43,82 @@ void Packer::Pack() {
 	    .baseOffset    = 0,
 	};
 
-	fileBuffer << packageHeader.magicNumber;
-	fileBuffer << packageHeader.versionNumber;
-	fileBuffer << packageHeader.numberOfFiles;
-	const auto baseOffsetPosition = fileBuffer.Tell<int64_t>();
-	fileBuffer << packageHeader.baseOffset;
+	packageFileBuffer << packageHeader.magicNumber;
+	packageFileBuffer << packageHeader.versionNumber;
+	packageFileBuffer << packageHeader.numberOfFiles;
+	const auto baseOffsetPosition = packageFileBuffer.Tell<int64_t>();
+	packageFileBuffer << packageHeader.baseOffset;
 
 	int64_t currentPosition = 0;
 
-	// Write file headers
-	for (const auto& filePath : filePaths) {
-		auto fileSize = std::filesystem::file_size(filePath);
+	// Write file headers and file contents
+	{
+		dubu::serialize::FileBuffer temporaryFileBuffer(
+		    temporaryPackagePath, dubu::serialize::FileBuffer::Mode::Write);
+		for (const auto& filePath : filePaths) {
+			auto fileSize = std::filesystem::file_size(filePath);
 
-		internal::FileHeader fileHeader{
-		    .filePath           = std::filesystem::relative(filePath, inputDirectoryPath),
-		    .originalFileSize   = static_cast<uint32_t>(fileSize),
-		    .compressedFileSize = 0,
-		    .position           = currentPosition,
-		};
+			internal::FileHeader fileHeader{
+			    .filePath =
+			        std::filesystem::relative(filePath, inputDirectoryPath),
+			    .originalFileSize   = static_cast<uint32_t>(fileSize),
+			    .compressedFileSize = 0,
+			    .position           = currentPosition,
+			};
 
-		currentPosition += static_cast<int64_t>(fileSize);
+			if (mUseCompression) {
+				uLong bufferBound = compressBound(fileHeader.originalFileSize);
 
-		fileBuffer << fileHeader;
+				if (mCompressionBuffer.size() < bufferBound) {
+					mCompressionBuffer.resize(bufferBound);
+				}
+
+				std::ifstream sourceFileStream(filePath, std::ios_base::binary);
+				blob          sourceFile;
+				sourceFile.resize(fileHeader.originalFileSize);
+				sourceFileStream.read(sourceFile.data(),
+				                      fileHeader.originalFileSize);
+
+				uLongf sourceLength = bufferBound;
+				int result = compress((Bytef*)mCompressionBuffer.data(),
+				         &sourceLength,
+				         (Bytef*)sourceFile.data(),
+				         (uLong)sourceFile.size());
+
+				if (result == Z_OK && sourceLength < fileHeader.originalFileSize) {
+					fileHeader.compressedFileSize =
+					    static_cast<uint32_t>(sourceLength);
+					temporaryFileBuffer.Write(mCompressionBuffer.data(),
+					                          fileHeader.compressedFileSize);
+					currentPosition += fileHeader.compressedFileSize;
+				} else {
+					temporaryFileBuffer.Write(sourceFile.data(),
+					                          fileHeader.originalFileSize);
+					currentPosition += fileHeader.originalFileSize;
+				}
+			} else {
+				std::ifstream sourceFileStream(filePath, std::ios_base::binary);
+				temporaryFileBuffer.Write(sourceFileStream);
+				currentPosition += fileHeader.originalFileSize;
+			}
+
+			packageFileBuffer << fileHeader;
+		}
 	}
 
-	packageHeader.baseOffset = fileBuffer.Tell<int64_t>();
+	packageHeader.baseOffset = packageFileBuffer.Tell<int64_t>();
 
-	fileBuffer.Seek(baseOffsetPosition);
-	fileBuffer << packageHeader.baseOffset;
-	fileBuffer.Seek(packageHeader.baseOffset);
+	packageFileBuffer.Seek(baseOffsetPosition);
+	packageFileBuffer << packageHeader.baseOffset;
+	packageFileBuffer.Seek(packageHeader.baseOffset);
 
 	// Write file data
-	for (const auto& filePath : filePaths) {
-		std::ifstream fileStream(filePath, std::ios_base::binary);
-		fileBuffer.Write(fileStream);
+	{
+		std::ifstream fileStream(temporaryPackagePath, std::ios_base::binary);
+		packageFileBuffer.Write(fileStream);
 	}
+
+	std::filesystem::remove(temporaryPackagePath);
 }
 
 }  // namespace dubu::pack
