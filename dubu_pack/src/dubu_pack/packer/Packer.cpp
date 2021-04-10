@@ -80,12 +80,14 @@ void Packer::Pack() {
 				                      fileHeader.originalFileSize);
 
 				uLongf sourceLength = bufferBound;
-				int result = compress((Bytef*)mCompressionBuffer.data(),
-				         &sourceLength,
-				         (Bytef*)sourceFile.data(),
-				         (uLong)sourceFile.size());
+				int    result       = compress(
+                    reinterpret_cast<Bytef*>(mCompressionBuffer.data()),
+                    &sourceLength,
+                    reinterpret_cast<Bytef*>(sourceFile.data()),
+                    static_cast<uLong>(sourceFile.size()));
 
-				if (result == Z_OK && sourceLength < fileHeader.originalFileSize) {
+				if (result == Z_OK &&
+				    sourceLength < fileHeader.originalFileSize) {
 					fileHeader.compressedFileSize =
 					    static_cast<uint32_t>(sourceLength);
 					temporaryFileBuffer.Write(mCompressionBuffer.data(),

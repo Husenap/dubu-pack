@@ -46,10 +46,11 @@ std::optional<blob> Unpacker::ReadFile(std::filesystem::path filePath) {
 		}
 		mFileBuffer.Read(&mCompressionBuffer[0], it->second.compressedFileSize);
 
-		int result = uncompress((Bytef*)&data[0],
-		                        &destinationLength,
-		                        (Bytef*)mCompressionBuffer.data(),
-		                        sourceLength);
+		int result =
+		    uncompress(reinterpret_cast<Bytef*>(&data[0]),
+		               &destinationLength,
+		               reinterpret_cast<Bytef*>(mCompressionBuffer.data()),
+		               sourceLength);
 
 		if (result != Z_OK) {
 			return std::nullopt;
